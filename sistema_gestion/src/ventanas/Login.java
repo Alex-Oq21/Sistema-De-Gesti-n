@@ -67,38 +67,6 @@ public class Login extends JFrame {
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		
-		
-		txt_user = new JTextField();
-		txt_user.setHorizontalAlignment(SwingConstants.CENTER);
-		txt_user.setFont(new Font("Arial", Font.PLAIN, 18));
-		txt_user.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		txt_user.setForeground(Color.BLACK);
-		txt_user.setBackground(Color.WHITE);
-		txt_user.setBounds(91, 195, 210, 20);
-		contentPane.add(txt_user);
-		txt_user.setColumns(10);
-		
-		
-		ImageIcon wallpaper_logo = new ImageIcon("src/images/login.png");
-		JLabel jLabel_Logo = new JLabel("");
-		jLabel_Logo.setBounds(136, 51, 100, 100);
-		contentPane.add(jLabel_Logo);
-		Icon icono_logo = new ImageIcon(wallpaper_logo.getImage().getScaledInstance(jLabel_Logo.getHeight(), jLabel_Logo.getWidth(), Image.SCALE_DEFAULT));
-		jLabel_Logo.setIcon(icono_logo);
-		
-		this.repaint();
-		ImageIcon wallpaper = new ImageIcon("src/images/fondo.jpg");
-		Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(353,500,353));
-		
-		txt_password = new JPasswordField();
-		txt_password.setBackground(Color.WHITE);
-		txt_password.setHorizontalAlignment(SwingConstants.CENTER);
-		txt_password.setFont(new Font("Arial", Font.PLAIN, 18));
-		txt_password.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		txt_password.setForeground(Color.BLACK);
-		txt_password.setBounds(95, 257, 210, 20);
-		contentPane.add(txt_password);
-		
 		JButton btn_Acceder = new JButton("Acceder");
 		btn_Acceder.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -143,17 +111,49 @@ public class Login extends JFrame {
 				}
 			}
 		});
+		
+		
+		txt_user = new JTextField();
+		txt_user.setHorizontalAlignment(SwingConstants.CENTER);
+		txt_user.setFont(new Font("Arial", Font.PLAIN, 18));
+		txt_user.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		txt_user.setForeground(Color.BLACK);
+		txt_user.setBackground(Color.WHITE);
+		txt_user.setBounds(91, 195, 210, 20);
+		contentPane.add(txt_user);
+		txt_user.setColumns(10);
 		btn_Acceder.setFont(new Font("Arial Narrow", Font.PLAIN, 11));
 		btn_Acceder.setForeground(UIManager.getColor("Menu.foreground"));
 		btn_Acceder.setBackground(UIManager.getColor("Menu.selectionBackground"));
 		btn_Acceder.setBounds(151, 317, 89, 23);
 		contentPane.add(btn_Acceder);
 		
+		
+		ImageIcon wallpaper_logo = new ImageIcon("src/images/login.png");
+		this.repaint();
+		
+		ImageIcon wallpaper = new ImageIcon("src/images/fondo.jpg");
+		Icon icono = new ImageIcon(wallpaper.getImage().getScaledInstance(353,500,353));
+		this.repaint(); 
+		txt_password = new JPasswordField();
+		txt_password.setBackground(Color.WHITE);
+		txt_password.setHorizontalAlignment(SwingConstants.CENTER);
+		txt_password.setFont(new Font("Arial", Font.PLAIN, 18));
+		txt_password.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		txt_password.setForeground(Color.BLACK);
+		txt_password.setBounds(95, 257, 210, 20);
+		contentPane.add(txt_password);
+		JLabel jLabel_Logo = new JLabel("");
+		jLabel_Logo.setBounds(136, 51, 100, 100);
+		contentPane.add(jLabel_Logo);
+		Icon icono_logo = new ImageIcon(wallpaper_logo.getImage().getScaledInstance(jLabel_Logo.getHeight(), jLabel_Logo.getWidth(), Image.SCALE_DEFAULT));
+		jLabel_Logo.setIcon(icono_logo);
 		JLabel jLabel_wallpaper = new JLabel("");
 		jLabel_wallpaper.setBounds(5, 5, 361, 511);
 		contentPane.add(jLabel_wallpaper);
 		jLabel_wallpaper.setIcon(icono);
-		this.repaint(); 
+		
+		
 	}
 }
 
