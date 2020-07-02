@@ -11,12 +11,16 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import clases.Conexion;
+import java.sql.*;
 
 public class Registrar_Usuarios extends JFrame {
+	String user;
 
 	private JPanel contentPane;
 	private JTextField txt_Nombre;
@@ -45,12 +49,16 @@ public class Registrar_Usuarios extends JFrame {
 	 * Create the frame.
 	 */
 	public Registrar_Usuarios() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		user = Login.user;
+		setTitle("Registar Usuario - sesión de " + user);
+		setResizable(false);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); 
 		setBounds(100, 100, 630, 330);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Registro De Usuarios");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));

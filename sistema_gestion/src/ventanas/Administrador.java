@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Color;
@@ -17,6 +18,8 @@ import java.awt.Image;
 import javax.swing.JButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Administrador extends JFrame {
 	String user,nombre_usuario;
@@ -49,7 +52,7 @@ public class Administrador extends JFrame {
 		
 		setResizable(false);
 		setTitle("Administrador - Sesión de: "+user);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setBounds(100, 100, 650, 430);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,6 +67,12 @@ public class Administrador extends JFrame {
 		contentPane.add(jLabel_nombreusuario);
 		
 		JButton Button_RegistrarUsuario = new JButton("");
+		Button_RegistrarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Registrar_Usuarios registrar_Usuario = new Registrar_Usuarios();
+				registrar_Usuario.setVisible(true);
+			}
+		});
 		Button_RegistrarUsuario.setIcon(new ImageIcon(Administrador.class.getResource("/images/addUser.png")));
 		Button_RegistrarUsuario.setBounds(24, 70, 120, 100);
 		contentPane.add(Button_RegistrarUsuario);
