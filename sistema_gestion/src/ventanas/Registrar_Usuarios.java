@@ -34,6 +34,15 @@ public class Registrar_Usuarios extends JFrame {
 	private JTextField txt_telefono;
 	private JTextField txt_username;
 	private JPasswordField txt_password;
+	
+	public void Limpiar() {
+		txt_Email.setText("");
+		txt_Nombre.setText("");
+		txt_password.setText("");
+		txt_username.setText("");
+		txt_telefono.setText("");
+		
+	}
 
 	/**
 	 * Launch the application.
@@ -143,7 +152,7 @@ public class Registrar_Usuarios extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int permisos_cmb, validacion=0;
-				String nombre,mail, telefono, username, pass, permisos_string;
+				String nombre,mail, telefono, username, pass, permisos_string="";
 				mail = txt_Email.getText().trim();
 				username = txt_username.getText().trim();
 				pass = txt_password.getText().trim();
@@ -190,13 +199,53 @@ public class Registrar_Usuarios extends JFrame {
 						JOptionPane.showMessageDialog(null, "Este usuario ya existe");
 						cn.close();
 					}else {
+						cn.close();
 						
+						if(validacion == 0) {
+							try {
+								Connection cn2 = Conexion.conectar();
+								PreparedStatement pst2 = cn2.prepareStatement(
+										"INSERT INTO usuarios VALUES(?,?,?,?,?,?,?,?,?)");
+								pst2.setInt(1,0);
+								pst2.setString(2,nombre);
+								pst2.setString(3,mail);
+								pst2.setString(4,telefono);
+								pst2.setString(5,username);
+								pst2.setString(6,pass);
+								pst2.setString(7,permisos_string);
+								pst2.setString(8,"Activo");
+								pst2.setString(9, user);
+								
+								pst2.executeUpdate();
+								cn2.close();
+								
+								Limpiar();
+								
+								txt_Email.setBorder(BorderFactory.createLineBorder(Color.green));
+								txt_username.setBorder(BorderFactory.createLineBorder(Color.green));
+								txt_password.setBorder(BorderFactory.createLineBorder(Color.green));
+								txt_Nombre.setBorder(BorderFactory.createLineBorder(Color.green));
+								txt_telefono.setBorder(BorderFactory.createLineBorder(Color.green));
+								
+								JOptionPane.showMessageDialog(null, "Registro Exitoso");
+								
+
+							}catch(SQLException e) {
+								System.out.println(e);
+								JOptionPane.showMessageDialog(null, "Error en el sistema al registrar usuario");
+							}
+						}else {
+							JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
+
+						}
 					}
 				}catch(SQLException e) {
 					System.err.println("Error en validación"+e);
 					JOptionPane.showMessageDialog(null, "Error en el sistema");
 				}
+				
 			}
+			
 		});
 		btnNewButton.setIcon(new ImageIcon(Registrar_Usuarios.class.getResource("/images/add.png")));
 		btnNewButton.setBounds(470, 170, 120, 100);
@@ -205,5 +254,7 @@ public class Registrar_Usuarios extends JFrame {
 		JLabel jLabel_wallpaper = new JLabel("");
 		jLabel_wallpaper.setBounds(0, 0, 614, 291);
 		contentPane.add(jLabel_wallpaper);
+		
+		
 	}
 }
