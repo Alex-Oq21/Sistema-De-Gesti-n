@@ -1,23 +1,29 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import clases.Conexion;
 import java.sql.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Registrar_Usuarios extends JFrame {
 	String user;
@@ -71,6 +77,7 @@ public class Registrar_Usuarios extends JFrame {
 		contentPane.add(jLabel_Nombre);
 		
 		txt_Nombre = new JTextField();
+		txt_Nombre.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_Nombre.setFont(new Font("Arial", Font.BOLD, 12));
 		txt_Nombre.setBounds(20, 64, 210, 20);
 		contentPane.add(txt_Nombre);
@@ -82,6 +89,7 @@ public class Registrar_Usuarios extends JFrame {
 		contentPane.add(jLabel_Email);
 		
 		txt_Email = new JTextField();
+		txt_Email.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_Email.setFont(new Font("Arial", Font.BOLD, 12));
 		txt_Email.setColumns(10);
 		txt_Email.setBounds(20, 120, 210, 20);
@@ -93,6 +101,7 @@ public class Registrar_Usuarios extends JFrame {
 		contentPane.add(jLabel_telefono);
 		
 		txt_telefono = new JTextField();
+		txt_telefono.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_telefono.setFont(new Font("Arial", Font.BOLD, 12));
 		txt_telefono.setColumns(10);
 		txt_telefono.setBounds(20, 176, 210, 20);
@@ -109,6 +118,7 @@ public class Registrar_Usuarios extends JFrame {
 		contentPane.add(jLabel_username);
 		
 		txt_username = new JTextField();
+		txt_username.setHorizontalAlignment(SwingConstants.CENTER);
 		txt_username.setFont(new Font("Arial", Font.BOLD, 12));
 		txt_username.setColumns(10);
 		txt_username.setBounds(380, 70, 210, 20);
@@ -130,6 +140,64 @@ public class Registrar_Usuarios extends JFrame {
 		contentPane.add(comboNiveles);
 		
 		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int permisos_cmb, validacion=0;
+				String nombre,mail, telefono, username, pass, permisos_string;
+				mail = txt_Email.getText().trim();
+				username = txt_username.getText().trim();
+				pass = txt_password.getText().trim();
+				nombre = txt_Nombre.getText().trim();
+				telefono = txt_telefono.getText().trim();
+				permisos_cmb = comboNiveles.getSelectedIndex() +1;
+				
+				if(mail.equals("")) {
+					txt_Email.setBorder(BorderFactory.createLineBorder(Color.RED));
+					validacion ++;
+				}
+				if(username.equals("")) {
+					txt_username.setBorder(BorderFactory.createLineBorder(Color.red));
+					validacion ++;
+				}
+				if(pass.equals("")) {
+					txt_password.setBorder(BorderFactory.createLineBorder(Color.red));
+					validacion ++;
+				}
+				if(nombre.equals("")) {
+					txt_Nombre.setBorder(BorderFactory.createLineBorder(Color.red));
+					validacion ++;
+				}
+				if(telefono.equals("")) {
+					txt_telefono.setBorder(BorderFactory.createLineBorder(Color.red));
+					validacion ++;
+				}
+				
+				if(permisos_cmb == 1) {
+					permisos_string = "Administrador";
+				}else if(permisos_cmb == 2) {
+					permisos_string = "Capturista";
+				}else if(permisos_cmb ==3) {
+					permisos_string = "Tecnico";
+				}
+				try {
+					Connection cn = Conexion.conectar();
+					PreparedStatement pst = cn.prepareStatement(
+							"SELECT username FROM usuarios WHERE username = '" + "'");
+					ResultSet rs = pst.executeQuery();
+					
+					if(rs.next()) {
+						txt_username.setBorder(BorderFactory.createLineBorder(Color.red));
+						JOptionPane.showMessageDialog(null, "Este usuario ya existe");
+						cn.close();
+					}else {
+						
+					}
+				}catch(SQLException e) {
+					System.err.println("Error en validación"+e);
+					JOptionPane.showMessageDialog(null, "Error en el sistema");
+				}
+			}
+		});
 		btnNewButton.setIcon(new ImageIcon(Registrar_Usuarios.class.getResource("/images/add.png")));
 		btnNewButton.setBounds(470, 170, 120, 100);
 		contentPane.add(btnNewButton);
