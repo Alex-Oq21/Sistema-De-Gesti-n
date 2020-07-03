@@ -78,6 +78,12 @@ public class Administrador extends JFrame {
 		contentPane.add(Button_RegistrarUsuario);
 		
 		JButton button_GestionarUsuario = new JButton("");
+		button_GestionarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GestionarUsuario gestionarUsuario = new GestionarUsuario();
+				gestionarUsuario.setVisible(true);
+			}
+		});
 		button_GestionarUsuario.setIcon(new ImageIcon(Administrador.class.getResource("/images/informationuser.png")));
 		button_GestionarUsuario.setBounds(270, 70, 120, 100);
 		contentPane.add(button_GestionarUsuario);
