@@ -106,7 +106,19 @@ public class GestionarUsuario extends JFrame {
 			System.out.println(e);
 			JOptionPane.showMessageDialog(null, "Error en el sistema");
 		}
-		
+		table_usuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int fila_point = table_usuario.rowAtPoint(e.getPoint());
+				int Columna_point = 2;
+				
+				if(fila_point > -1 ) {
+					user_update = (String)model.getValueAt(fila_point, Columna_point);
+					Informacion_Usuario informacion_usuario = new Informacion_Usuario();
+					informacion_usuario.setVisible(true);
+				}
+			}
+		});
 		
 		JLabel jLabel_wallpaper = new JLabel("");
 		jLabel_wallpaper.setBounds(0, 0, 614, 281);
