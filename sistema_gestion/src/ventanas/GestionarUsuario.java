@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTable;
 import java.sql.*;
@@ -20,6 +22,7 @@ import javax.swing.WindowConstants;
 
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class GestionarUsuario extends JFrame {
 
@@ -29,6 +32,7 @@ public class GestionarUsuario extends JFrame {
 	public static String user_update = "";
 	DefaultTableModel model = new DefaultTableModel();
 	private JTable table;
+	private JTable table_usuario;
 
 	/**
 	 * Launch the application.
@@ -63,27 +67,46 @@ public class GestionarUsuario extends JFrame {
 		contentPane.setLayout(null);
 		setLocationRelativeTo(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("Usuarios Registrados");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblNewLabel_1.setBounds(210, 10, 233, 29);
-		contentPane.add(lblNewLabel_1);
-		
-		table = new JTable();
-		table.setBorder(UIManager.getBorder("TextArea.border"));
-		table.setRowSelectionAllowed(true);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-				{null, null, null, null},
-			},
-			new String[] {
-				"New column", "New column", "New column", "New column"
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement pst = cn.prepareStatement(
+					"SELECT id_usuario, nombre_usuario, username, tipo_nivel, estatus FROM usuarios");
+			ResultSet rs = pst.executeQuery();
+			
+			JLabel lblNewLabel_1 = new JLabel("Usuarios Registrados");
+			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
+			lblNewLabel_1.setBounds(210, 10, 233, 29);
+			contentPane.add(lblNewLabel_1);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(131, 72, 349, 166);
+			contentPane.add(scrollPane);
+			
+			table_usuario = new JTable(model);
+			scrollPane.setViewportView(table_usuario);
+			
+			model.addColumn("");
+			model.addColumn("Nombre");
+			model.addColumn("Nombre Usuario");
+			model.addColumn("Permisos");
+			model.addColumn("Estatus");
+			
+			while(rs.next()) {
+				Object[] fila = new Object[5];
+				for (int i = 0; i < 5; i++) {
+					fila[i] = rs.getObject(i +1);
+				}
+				model.addRow(fila);
 			}
-		));
-		table.setBounds(162, 214, 281, -139);
-		contentPane.add(table);
+			cn.close();
+			
+			
+			
+		}catch(SQLException e) {
+			System.out.println(e);
+			JOptionPane.showMessageDialog(null, "Error en el sistema");
+		}
+		
 		
 		JLabel jLabel_wallpaper = new JLabel("");
 		jLabel_wallpaper.setBounds(0, 0, 614, 281);
