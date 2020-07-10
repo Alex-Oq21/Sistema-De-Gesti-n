@@ -57,7 +57,7 @@ public class GestionarUsuario extends JFrame {
 		user = Login.user;
 		
 		setSize(630,330);
-		setTitle("Usuarios Registrados - " + user);
+		setTitle(" Usuarios Registrados - " + user);
 		setResizable(false);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 630, 330);
@@ -73,9 +73,9 @@ public class GestionarUsuario extends JFrame {
 					"SELECT id_usuario, nombre_usuario, username, tipo_nivel, estatus FROM usuarios");
 			ResultSet rs = pst.executeQuery();
 			
-			JLabel lblNewLabel_1 = new JLabel("Usuarios Registrados");
+			JLabel lblNewLabel_1 = new JLabel("Usuarios Registrados  ");
 			lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 24));
-			lblNewLabel_1.setBounds(210, 10, 233, 29);
+			lblNewLabel_1.setBounds(184, 11, 246, 29);
 			contentPane.add(lblNewLabel_1);
 			
 			JScrollPane scrollPane = new JScrollPane();

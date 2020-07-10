@@ -2,7 +2,6 @@ package ventanas;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
@@ -13,9 +12,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import java.sql.*;
+import clases.Conexion;
 
 public class Informacion_Usuario extends JFrame {
-
+	
+	String user="", user_update="";
+	int ID;
 	private JPanel contentPane;
 	private JTextField txt_nombre;
 	private JTextField txt_Email;
@@ -43,18 +47,24 @@ public class Informacion_Usuario extends JFrame {
 	 * Create the frame.
 	 */
 	public Informacion_Usuario() {
-		
+		user = Login.user;
+		user_update = GestionarUsuario.user_update;
+		setSize(630,450);
+		setResizable(false);
+		setTitle("Información del usuario  " + user_update + " - Sesión de  " + user);
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 630, 450);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		
-		JLabel lblNewLabel = new JLabel("Informaci\u00F3n Del Usuario");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		lblNewLabel.setBounds(177, 11, 271, 29);
-		contentPane.add(lblNewLabel);
+		JLabel jLabel_titulo = new JLabel("Informaci\u00F3n Del Usuario -  ");
+		jLabel_titulo.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		jLabel_titulo.setBounds(161, 11, 391, 29);
+		jLabel_titulo.setText("Información del usuario - "+ user_update);
+		contentPane.add(jLabel_titulo);
 		
 		JLabel jLabel_nombre = new JLabel("Nombre :");
 		jLabel_nombre.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -136,6 +146,14 @@ public class Informacion_Usuario extends JFrame {
 		combo_niveles.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Capturista", "Tecnico"}));
 		combo_niveles.setBounds(20, 250, 114, 20);
 		contentPane.add(combo_niveles);
+		
+		JButton btn_actualizar = new JButton("Actualizar Usuario");
+		btn_actualizar.setBounds(380, 250, 210, 35);
+		contentPane.add(btn_actualizar);
+		
+		JButton btn_RestaurarContra = new JButton("Restaurar Contrase\u00F1a");
+		btn_RestaurarContra.setBounds(380, 300, 210, 35);
+		contentPane.add(btn_RestaurarContra);
 		
 		JLabel jLabel_Wallpaper = new JLabel("");
 		jLabel_Wallpaper.setBounds(5, 5, 604, 401);
