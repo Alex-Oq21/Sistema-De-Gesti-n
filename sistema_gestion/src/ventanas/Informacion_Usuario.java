@@ -195,6 +195,36 @@ public class Informacion_Usuario extends JFrame {
 					}else if(estatus_combo == 2) {
 						estatus_string = "Inactivo";
 					}
+					
+					try {
+						Connection cn = Conexion.conectar();
+						PreparedStatement pr = cn.prepareStatement(                      //Con esta instrucción se busca que compare con los otros username sin tenerse en cuenta así mismo.
+								"SELECT * FROM usuarios WHERE username ='" + username + "' and not id_usuario = '" + ID + "'" );
+						ResultSet rs = pr.executeQuery();
+						
+						if(rs.next()) {
+							txt_username.setBorder(BorderFactory.createLineBorder(Color.RED));
+							JOptionPane.showMessageDialog(null, "Nombre de usuario no disponible");
+							cn.close();
+						}else {
+							Connection cn2 = Conexion.conectar();
+							PreparedStatement pr2 = cn2.prepareStatement(
+							"update usuarios set nombre_usuario=?, email=?, telefono=?, username=?, tipo_nivel=?, estatus=?"
+									+ "WHERE id_usuario = '" + ID + "'");
+							pr2.setString(1, nombre);
+							pr2.setString(2, email);
+							pr2.setString(3, telefono);
+							pr2.setString(4, username);
+							pr2.setString(5, permisos_string);
+							pr2.setString(6, estatus_string);
+							pr2.executeUpdate();
+							cn2.close();
+							
+							JOptionPane.showMessageDialog(null, "Se Actualizaron Los Datos Correctamente");
+						}
+					}catch(SQLException e) {
+						System.err.println("Error Al Actualizar");
+					}
 				}else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
 				}
