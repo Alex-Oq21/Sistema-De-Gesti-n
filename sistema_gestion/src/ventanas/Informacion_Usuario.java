@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -159,5 +161,27 @@ public class Informacion_Usuario extends JFrame {
 		jLabel_Wallpaper.setBounds(5, 5, 604, 401);
 		contentPane.add(jLabel_Wallpaper);
 		setLocationRelativeTo(null);
+		
+		try {
+			Connection cn = Conexion.conectar();
+			PreparedStatement ps= cn.prepareStatement("SELECT * FROM usuarios WHERE username = '" + user_update +"'");
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				//Se usa el Id para evitar redundancia en la base d e datos.
+				ID = rs.getInt("id_usuario");
+				txt_nombre.setText(rs.getString("nombre_usuario"));
+				txt_Email.setText(rs.getString("email"));
+				txt_Telefono.setText(rs.getString("telefono"));
+				txt_username.setText(rs.getString("username"));
+				txt_registradopor.setText(rs.getString("registrado_por"));
+				
+				combo_niveles.setSelectedItem(rs.getString("tipo_nivel"));
+				combo_estatus.setSelectedItem(rs.getString("estatus"));
+			}
+			cn.close();
+		}catch(SQLException e) {
+			System.err.println("Error en el sistema." + e);
+			JOptionPane.showMessageDialog(null, "Error al cargar, contacte al administrador");
+		}
 	}
 }
