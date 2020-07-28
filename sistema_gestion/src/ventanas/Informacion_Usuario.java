@@ -1,6 +1,7 @@
 package ventanas;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -13,10 +14,13 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.sql.*;
 import clases.Conexion;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Informacion_Usuario extends JFrame {
 	
@@ -150,6 +154,52 @@ public class Informacion_Usuario extends JFrame {
 		contentPane.add(combo_niveles);
 		
 		JButton btn_actualizar = new JButton("Actualizar Usuario");
+		btn_actualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int permisos_combo, estatus_combo, validacion =0;
+				String nombre, email, telefono, username, pass, permisos_string="", estatus_string="";
+				
+				email = txt_Email.getText().trim();
+				username = txt_username.getText().trim();
+				nombre = txt_nombre.getText().trim();
+				telefono = txt_Telefono.getText().trim();
+				permisos_combo = combo_niveles.getSelectedIndex() + 1;
+				estatus_combo = combo_estatus.getSelectedIndex() + 1;
+				//Validar que los campos no estén vacíos.
+				if(email.equals("")) {
+					txt_Email.setBorder(BorderFactory.createLineBorder(Color.RED));
+					validacion ++;
+				}
+				if(username.equals("")) {
+					txt_username.setBorder(BorderFactory.createLineBorder(Color.RED));
+					validacion ++;
+				}
+				if(nombre.equals("")) {
+					txt_nombre.setBorder(BorderFactory.createLineBorder(Color.RED));
+					validacion ++;
+				}
+				if(telefono.equals("")) {
+					txt_Telefono.setBorder(BorderFactory.createLineBorder(Color.RED));
+					validacion ++;
+				}
+				if(validacion == 0) {
+					if(permisos_combo == 1) {
+						permisos_string = "Admistrador";
+					}else if(permisos_combo == 2){
+						permisos_string = "Capturista";
+					}else if(permisos_combo == 3) {
+						permisos_string = "Tecnico";
+					}
+					if(estatus_combo == 1) {
+						estatus_string = "Activo";
+					}else if(estatus_combo == 2) {
+						estatus_string = "Inactivo";
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
+				}
+			}
+		});
 		btn_actualizar.setBounds(380, 250, 210, 35);
 		contentPane.add(btn_actualizar);
 		
