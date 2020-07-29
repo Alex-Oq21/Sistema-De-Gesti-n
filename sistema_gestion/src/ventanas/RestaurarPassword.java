@@ -2,17 +2,23 @@ package ventanas;
 import java.sql.*;
 import clases.Conexion;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RestaurarPassword extends JFrame {
 	String user="", user_update="";
@@ -78,9 +84,46 @@ public class RestaurarPassword extends JFrame {
 		txt_passwordConfirmacion.setBounds(20, 130, 210, 20);
 		contentPane.add(txt_passwordConfirmacion);
 		
-		JButton button = new JButton("Restaurar Contrase\u00F1a");
-		button.setBounds(20, 180, 210, 35);
-		contentPane.add(button);
+		JButton btn_RestaurarPassword = new JButton("Restaurar Contrase\u00F1a");
+		btn_RestaurarPassword.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String password,confirmacion_password;
+				password = txt_password.getText().trim();
+				confirmacion_password = txt_passwordConfirmacion.getText().trim();
+				if(!password.equals("") && !confirmacion_password.equals("")) {
+					if(password.equals(confirmacion_password)) {
+						try {
+							Connection cn = Conexion.conectar();
+							PreparedStatement pst = cn.prepareStatement(
+									"update usuarios set password=? where username = '" + user_update + "'");
+							pst.setString(1, password);
+							pst.executeUpdate();
+							cn.close();
+							
+							txt_password.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+							txt_passwordConfirmacion.setBorder(BorderFactory.createLineBorder(Color.GREEN));
+							JOptionPane.showMessageDialog(null, "Cambio de contraseña de forma exitosa");
+							
+
+						}catch(SQLException e1) {
+							
+							System.out.println("Error al cambiar contraseña " + e1);
+
+						}
+						
+					}else {
+						txt_passwordConfirmacion.setBorder(BorderFactory.createLineBorder(Color.RED));
+						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
+					}
+				}else {
+					txt_password.setBorder(BorderFactory.createLineBorder(Color.RED));
+					txt_passwordConfirmacion.setBorder(BorderFactory.createLineBorder(Color.RED));
+					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos");
+				}
+			}
+		});
+		btn_RestaurarPassword.setBounds(20, 180, 210, 35);
+		contentPane.add(btn_RestaurarPassword);
 		
 		JLabel jLabel_wallpapaer = new JLabel("");
 		jLabel_wallpapaer.setBounds(5, 5, 334, 211);
