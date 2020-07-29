@@ -234,6 +234,12 @@ public class Informacion_Usuario extends JFrame {
 		contentPane.add(btn_actualizar);
 		
 		JButton btn_RestaurarContra = new JButton("Restaurar Contrase\u00F1a");
+		btn_RestaurarContra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				RestaurarPassword restaurar = new RestaurarPassword();
+				restaurar.setVisible(true); 
+			}
+		});
 		btn_RestaurarContra.setBounds(380, 300, 210, 35);
 		contentPane.add(btn_RestaurarContra);
 		
